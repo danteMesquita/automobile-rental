@@ -1,7 +1,6 @@
 ﻿using AutomobileRentalManagementAPI.Domain.Enums;
-using AutomobileRentalManagementAPI.Infra.DbEntities.Base;
 
-namespace AutomobileRentalManagementAPI.Infra.DbEntities
+namespace AutomobileRentalManagementAPI.Domain.Entities
 {
     public class UserEntity : BaseEntity
     {

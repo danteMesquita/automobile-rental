@@ -3,7 +3,9 @@ using AutomobileRentalManagementAPI.Ioc;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-DependencyInjection.AddInfraData(builder.Services);
+DependencyInjection.AddInfraData(builder.Services, builder.Configuration);
+
+builder.Services.AddHostedService<UserConsumer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

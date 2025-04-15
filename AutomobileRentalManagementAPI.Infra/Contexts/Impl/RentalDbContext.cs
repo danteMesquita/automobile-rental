@@ -1,4 +1,4 @@
-﻿using AutomobileRentalManagementAPI.Infra.DbEntities;
+﻿using AutomobileRentalManagementAPI.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomobileRentalManagementAPI.Infra.Contexts.Impl

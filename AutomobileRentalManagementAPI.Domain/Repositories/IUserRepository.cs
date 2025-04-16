@@ -2,7 +2,7 @@
 
 namespace AutomobileRentalManagementAPI.Domain.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<UserEntity>
+    public interface IUserRepository : IRepositoryBase<Motorcycle>
     {
     }
 }

@@ -1,4 +1,7 @@
+using AutomobileRentalManagementAPI.Application;
+using AutomobileRentalManagementAPI.CrossCutting.Validation;
 using AutomobileRentalManagementAPI.Ioc;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(ApplicationLayer).Assembly);
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(
+        typeof(ApplicationLayer).Assembly,
+        typeof(Program).Assembly
+    );
+});
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 

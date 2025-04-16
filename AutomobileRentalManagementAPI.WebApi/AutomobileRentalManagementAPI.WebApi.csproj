@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AutomobileRentalManagementAPI.CrossCutting\AutomobileRentalManagementAPI.CrossCutting.csproj" />
     <ProjectReference Include="..\AutomobileRentalManagementAPI.Ioc\AutomobileRentalManagementAPI.Ioc.csproj" />
     <ProjectReference Include="..\AutomobileRentalManagementAPI.Worker\AutomobileRentalManagementAPI.Worker.csproj" />
   </ItemGroup>

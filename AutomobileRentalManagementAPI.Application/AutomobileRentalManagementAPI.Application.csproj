@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Events\" />
     <Folder Include="Handlers\" />
+    <Folder Include="Motorcycles\DeleteMotorcycle\" />
+    <Folder Include="Motorcycles\GetAllMotorcycle\" />
+    <Folder Include="Motorcycles\GetMotorcycle\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
   </ItemGroup>
 

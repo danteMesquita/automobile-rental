@@ -4,7 +4,7 @@ using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
 
 namespace AutomobileRentalManagementAPI.Infra.Repositories
 {
-    public class UserRepository : RepositoryBase<UserEntity>, IUserRepository
+    public class UserRepository : RepositoryBase<Motorcycle>, IUserRepository
     {
 
         public UserRepository(RentalDbContext context) : base(context) { }

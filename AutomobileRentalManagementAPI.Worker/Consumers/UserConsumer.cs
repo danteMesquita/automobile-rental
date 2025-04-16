@@ -51,7 +51,7 @@ public class UserConsumer : BackgroundService
 
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            var user = JsonSerializer.Deserialize<UserEntity>(message);
+            var user = JsonSerializer.Deserialize<Motorcycle>(message);
 
             if (user != null)
                 await userRepository.AddAsync(user);

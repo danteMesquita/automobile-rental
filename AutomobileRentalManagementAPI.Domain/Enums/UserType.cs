@@ -3,6 +3,6 @@
     public enum UserType
     {
         Admin,
-        DeliveryMan
+        DeliveryPerson
     }
 }

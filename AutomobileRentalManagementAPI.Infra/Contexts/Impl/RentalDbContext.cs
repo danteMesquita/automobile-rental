@@ -7,7 +7,7 @@ namespace AutomobileRentalManagementAPI.Infra.Contexts.Impl
     DbContextOptions<RentalDbContext> options)
     : DbContext(options)
     {
-        public DbSet<UserEntity> User { get; set; }
+        public DbSet<Motorcycle> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

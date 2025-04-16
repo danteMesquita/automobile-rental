@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Messaging\Consumers\" />
     <Folder Include="Messaging\Producers\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

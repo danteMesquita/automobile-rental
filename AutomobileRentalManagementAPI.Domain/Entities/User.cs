@@ -2,7 +2,7 @@
 
 namespace AutomobileRentalManagementAPI.Domain.Entities
 {
-    public class UserEntity : BaseEntity
+    public class User : BaseEntity
     {
         public string Name { get; set; } = null!;
         public string Email { get; set; } = null!;

@@ -9,9 +9,6 @@
   <ItemGroup>
     <Folder Include="Events\" />
     <Folder Include="Handlers\" />
-    <Folder Include="Motorcycles\DeleteMotorcycle\" />
-    <Folder Include="Motorcycles\GetAllMotorcycle\" />
-    <Folder Include="Motorcycles\GetMotorcycle\" />
   </ItemGroup>
 
   <ItemGroup>

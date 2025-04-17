@@ -1,5 +1,6 @@
 ﻿using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
 using AutomobileRentalManagementAPI.Domain.Repositories;
+using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.Infra.Contexts;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
 using AutomobileRentalManagementAPI.Infra.MessageQueue.RabbitMq;
@@ -25,7 +26,8 @@ namespace AutomobileRentalManagementAPI.Ioc
         private static IServiceCollection AddRepositories(this IServiceCollection services) =>
             services
                 .AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 
         private static IServiceCollection AddServices(this IServiceCollection services) =>
             services

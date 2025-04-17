@@ -3,7 +3,6 @@
     public class CreateMotorcycleResponse
     {
         public Guid NavigationId { get; set; }
-        public int MyProperty { get; set; }
         public string Identifier { get; set; } = null!;
         public int Year { get; set; }
         public string Model { get; set; } = null!;

@@ -1,11 +1,15 @@
 ﻿using FluentValidation;
 
-namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create
+namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Put
 {
-    public class CreateMotorcycleRequestValidator : AbstractValidator<CreateMotorcycleRequest>
+    public class UpdateMotorcycleRequestValidator : AbstractValidator<UpdateMotorcycleRequest>
     {
-        public CreateMotorcycleRequestValidator()
+        public UpdateMotorcycleRequestValidator()
         {
+            RuleFor(motorcycles => motorcycles.NavigationId)
+                .NotNull()
+                .NotEmpty();
+
             RuleFor(motorcycle => motorcycle.identificador)
                 .NotNull()
                 .NotEmpty();

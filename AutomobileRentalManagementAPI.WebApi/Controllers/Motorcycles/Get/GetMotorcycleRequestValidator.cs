@@ -6,7 +6,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Get
     {
         public GetMotorcycleRequestValidator()
         {
-            RuleFor(motorcycle => motorcycle.LicensePlate)
+            RuleFor(motorcycle => motorcycle.placa)
               .NotNull()
               .NotEmpty()
               .Length(8);

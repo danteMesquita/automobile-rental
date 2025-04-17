@@ -2,6 +2,6 @@
 {
     public class GetMotorcycleRequest
     {
-        public string LicensePlate { get; set; } = null!;
+        public string placa { get; set; } = null!;
     }
 }

@@ -1,13 +1,16 @@
 ﻿using MediatR;
 using FluentValidation;
+using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
 
 namespace AutomobileRentalManagementAPI.Application.Motorcycles.CreateMotorcycle
 {
     public class CreateMotorcycleHandler : IRequestHandler<CreateMotorcycleCommand, CreateMotorcycleResult>
     {
-        public CreateMotorcycleHandler()
+        private readonly IMotorcyclePublisher _motorcyclePublisher;
+
+        public CreateMotorcycleHandler(IMotorcyclePublisher motorcyclePublisher)
         {
-            
+            _motorcyclePublisher = motorcyclePublisher;
         }
 
         public async Task<CreateMotorcycleResult> Handle(CreateMotorcycleCommand command, CancellationToken cancellationToken)
@@ -16,9 +19,12 @@ namespace AutomobileRentalManagementAPI.Application.Motorcycles.CreateMotorcycle
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
             if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
 
-            //TODO: implement publish on queue
+            if (command.Year == 2024)
+                await _motorcyclePublisher.PublishAsync(command, "notification-queue");
 
-            throw new NotImplementedException();
+            await _motorcyclePublisher.PublishAsync(command, "motorcycle-queue");
+
+            return new CreateMotorcycleResult();
         }
     }
 }

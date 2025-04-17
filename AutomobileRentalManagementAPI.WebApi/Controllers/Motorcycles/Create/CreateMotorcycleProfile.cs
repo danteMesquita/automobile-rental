@@ -7,7 +7,12 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create
     {
         public CreateMotorcycleProfile()
         {
-            CreateMap<CreateMotorcycleRequest, CreateMotorcycleCommand>();
+            CreateMap<CreateMotorcycleRequest, CreateMotorcycleCommand>()
+                .ForMember(dest => dest.Identifier, opt => opt.MapFrom(src => src.identificador))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.ano))
+                .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.modelo))
+                .ForMember(dest => dest.LicensePlate, opt => opt.MapFrom(src => src.placa));
+
             CreateMap<CreateMotorcycleResult, CreateMotorcycleResponse>();
         }
     }

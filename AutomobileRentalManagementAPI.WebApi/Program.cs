@@ -1,6 +1,7 @@
 using AutomobileRentalManagementAPI.Application;
 using AutomobileRentalManagementAPI.CrossCutting.Validation;
 using AutomobileRentalManagementAPI.Ioc;
+using AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 DependencyInjection.AddInfraData(builder.Services, builder.Configuration);
 
 builder.Services.AddHostedService<UserConsumer>();
+builder.Services.AddHostedService<MotorcycleConsumer>();
+builder.Services.AddHostedService<MotorcycleNotificationConsumer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

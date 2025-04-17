@@ -2,7 +2,7 @@
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
 
-namespace AutomobileRentalManagementAPI.Infra.Repositories
+namespace AutomobileRentalManagementAPI.Infra.Repositories.Motorcycles
 {
     public class MotorcycleRepository : RepositoryBase<Motorcycle>, IMotorcycleRepository
     {

@@ -1,6 +1,7 @@
 ﻿using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomobileRentalManagementAPI.Infra.Repositories.Motorcycles
 {
@@ -8,6 +9,11 @@ namespace AutomobileRentalManagementAPI.Infra.Repositories.Motorcycles
     {
         public MotorcycleRepository(RentalDbContext db) : base(db)
         {
+        }
+
+        public async Task<Motorcycle?> GetByLicensePlateAsync(string licensePlate)
+        {
+            return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.LicensePlate == licensePlate);
         }
     }
 }

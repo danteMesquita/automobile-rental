@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using AutomobileRentalManagementAPI.Application.Motorcycles.CreateMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.CreateMotorcycle;
 
 namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create
 {
@@ -13,7 +13,11 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create
                 .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.modelo))
                 .ForMember(dest => dest.LicensePlate, opt => opt.MapFrom(src => src.placa));
 
-            CreateMap<CreateMotorcycleResult, CreateMotorcycleResponse>();
+            CreateMap<CreateMotorcycleResponse, CreateMotorcycleResult>()
+                .ForMember(dest => dest.Identifier, opt => opt.MapFrom(src => src.identificador))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.ano))
+                .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.modelo))
+                .ForMember(dest => dest.LicensePlate, opt => opt.MapFrom(src => src.placa));
         }
     }
 }

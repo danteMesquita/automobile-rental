@@ -3,9 +3,9 @@
     public class CreateMotorcycleResponse
     {
         public Guid NavigationId { get; set; }
-        public string Identifier { get; set; } = null!;
-        public int Year { get; set; }
-        public string Model { get; set; } = null!;
-        public string LicensePlate { get; set; } = null!;
+        public string identificador { get; init; } = null!;
+        public int ano { get; init; }
+        public string modelo { get; init; } = null!;
+        public string placa { get; init; } = null!;
     }
 }

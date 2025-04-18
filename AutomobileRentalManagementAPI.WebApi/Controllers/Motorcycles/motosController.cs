@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using AutomobileRentalManagementAPI.Application.Motorcycles.CreateMotorcycle;
-using AutomobileRentalManagementAPI.Application.Motorcycles.DeleteMotorcycle;
-using AutomobileRentalManagementAPI.Application.Motorcycles.GetMotorcycle;
-using AutomobileRentalManagementAPI.Application.Motorcycles.UpdateMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.CreateMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateMotorcycle;
 using AutomobileRentalManagementAPI.WebApi.Common;
 using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create;
 using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Get;
@@ -14,8 +14,6 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
 {
     public class motosController : BaseController
     {
-        // TODO: BATER TODOS OS RETORNOS DOS MÈTODOS COM https://app.swaggerhub.com/apis-docs/Mottu/mottu_desafio_backend/1.0.0#/motos/get_motos__id_
-        // Entrada e estrutura OK.
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
@@ -71,7 +69,10 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
             var command = _mapper.Map<UpdateMotorcycleCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Ok();
+            return Ok(new ApiResponse()
+            {
+                mensagem = "Placa modificada com sucesso"
+            });
         }
 
         [HttpGet("{id}")]

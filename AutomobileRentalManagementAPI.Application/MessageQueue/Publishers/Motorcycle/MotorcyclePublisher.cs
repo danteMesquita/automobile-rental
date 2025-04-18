@@ -1,5 +1,5 @@
-﻿using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
-using AutomobileRentalManagementAPI.Application.Motorcycles.CreateMotorcycle;
+﻿using AutomobileRentalManagementAPI.Application.Features.Motorcycles.CreateMotorcycle;
+using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
 using AutomobileRentalManagementAPI.Infra.MessageQueue.RabbitMq;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;

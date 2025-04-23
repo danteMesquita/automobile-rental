@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using AutomobileRentalManagementAPI.CrossCutting.Extensions;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace AutomobileRentalManagementAPI.CrossCutting.Util
@@ -58,5 +59,18 @@ namespace AutomobileRentalManagementAPI.CrossCutting.Util
 
             return descriptions.Contains(value);
         }
+
+        public static bool IsValidEnumDescription<TEnum>(TEnum value) where TEnum : Enum
+        {
+            var validDescriptions = new HashSet<string>(
+                Enum.GetValues(typeof(TEnum))
+                    .Cast<TEnum>()
+                    .Select(e => e.GetDescription()));
+
+            return validDescriptions.Contains(value.GetDescription());
+        }
+
+
+
     }
 }

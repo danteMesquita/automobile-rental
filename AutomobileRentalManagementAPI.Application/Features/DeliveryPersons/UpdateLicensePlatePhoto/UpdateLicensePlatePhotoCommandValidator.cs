@@ -2,13 +2,14 @@
 
 namespace AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.UpdateLicensePlatePhoto
 {
-    public class UpdateLicensePlatePhotoCommandValidator : AbstractValidator<UpdateLicensePlatePhotoRequestCommand>
+    public class UpdateLicensePlatePhotoCommandValidator : AbstractValidator<UpdateLicensePlatePhotoCommand>
     {
         public UpdateLicensePlatePhotoCommandValidator()
         {
-            RuleFor(licensePlate => licensePlate.LicensePlate)
+            RuleFor(licensePlate => licensePlate.LicenseImageBase64)
                .NotNull()
-               .NotEmpty();
+               .NotEmpty()
+               .WithMessage("The cnh photo cannot be empty.");
         }
     }
 }

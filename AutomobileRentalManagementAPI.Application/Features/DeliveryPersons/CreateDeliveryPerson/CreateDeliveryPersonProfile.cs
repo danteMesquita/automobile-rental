@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Entities;
 
 namespace AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.CreateDeliveryPerson
 {
-    internal class CreateDeliveryPersonProfile
+    public class CreateDeliveryPersonProfile : Profile
     {
+        public CreateDeliveryPersonProfile()
+        {
+            CreateMap<CreateDeliveryPersonCommand, DeliveryPerson>();
+            
+            CreateMap<DeliveryPerson, CreatedDeliveryPersonResult>();
+        }
     }
 }

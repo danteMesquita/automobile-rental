@@ -1,4 +1,6 @@
-﻿namespace AutomobileRentalManagementAPI.Domain.Entities
+﻿using AutomobileRentalManagementAPI.Domain.Entities.Base;
+
+namespace AutomobileRentalManagementAPI.Domain.Entities
 {
     public class Motorcycle : BaseEntity
     {

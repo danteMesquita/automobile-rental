@@ -23,16 +23,22 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] CreateDeliveryPersonRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await new CreateDeliveryPersonRequestValidator().ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
+            if (!validationResult.IsValid) return BadRequest(new ApiResponse()
+            {
+                success = false,
+                mensagem = "Dados inválidos",
+                errors = validationResult.Errors
+            });
 
             var command = _mapper.Map<CreateDeliveryPersonCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
             var mappedResponse = _mapper.Map<CreateDeliveryPersonResponse>(response);
 
-            return Created();
+            return Created($"/get/{mappedResponse.NavigationId}", mappedResponse);
         }
 
         [HttpPost("{id}/cnh")]
@@ -43,11 +49,15 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons
             var validationResult = await new UpdateLicensePlatePhotoRequestValidator().ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
 
-            var command = _mapper.Map<UpdateLicensePlatePhotoRequestCommand>(request);
+            var command = _mapper.Map<UpdateLicensePlatePhotoCommand>(request);
+            command.NavigationId = Guid.Parse(id)
+                ;
             var response = await _mediator.Send(command, cancellationToken);
+            var mappedResponse = _mapper.Map<UpdateLicensePlatePhotoResponse>(response);
 
-            return Ok(new ApiResponse()
+            return Created($"/get/{mappedResponse.NavigationId}", new ApiResponse()
             {
+                success = true,
                 mensagem = "Placa modificada com sucesso"
             });
         }

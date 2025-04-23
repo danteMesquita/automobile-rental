@@ -1,6 +1,7 @@
 ﻿using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
+using AutomobileRentalManagementAPI.Infra.Repositories.Base;
 
 namespace AutomobileRentalManagementAPI.Infra.Repositories.Motorcycles
 {

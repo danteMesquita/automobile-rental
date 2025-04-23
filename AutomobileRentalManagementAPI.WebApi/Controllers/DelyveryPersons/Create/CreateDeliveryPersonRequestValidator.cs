@@ -18,22 +18,20 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons.Creat
                 .NotEmpty().WithMessage("CNPJ is required.")
                 .Must(ValidationUtil.IsValidCnpj).WithMessage("CNPJ is invalid.");
 
-            RuleFor(x => x.dataNascimento)
+            RuleFor(x => x.data_nascimento)
                 .NotEmpty().WithMessage("Birthdate is required.")
                 .LessThan(DateTime.UtcNow).WithMessage("Birthdate must be in the past.");
 
-            RuleFor(x => x.numeroCnh)
+            RuleFor(x => x.numero_cnh)
                 .NotEmpty().WithMessage("Driver's license number is required.")
                 .Length(11).WithMessage("Driver's license number must be 11 digits.")
                 .Matches(@"^\d+$").WithMessage("Driver's license number must contain only digits.");
 
-            RuleFor(x => x.tipoCnh)
+            RuleFor(x => x.tipo_cnh)
                .NotNull().NotEmpty().WithMessage("Driver's license type is required.")
                .Must(value => ValidationUtil.IsValidEnumDescription<CnhType>(value))
                .WithMessage("Driver's license type is invalid. Allowed values: A, B, A+B.");
-
-            RuleFor(x => x.imagemCnh)
-                .NotEmpty().WithMessage("Driver's license image is required.");
+            
         }
     }
 }

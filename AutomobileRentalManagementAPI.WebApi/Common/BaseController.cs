@@ -14,16 +14,16 @@ namespace AutomobileRentalManagementAPI.WebApi.Common
             User.FindFirst(ClaimTypes.Email)?.Value ?? throw new NullReferenceException();
 
         protected IActionResult Ok<T>(T data) =>
-                base.Ok(new ApiResponseWithData<T> { Data = data, Success = true });
+                base.Ok(new ApiResponseWithData<T> { Data = data, success = true });
 
         protected IActionResult Created<T>(string routeName, object routeValues, T data) =>
-            base.CreatedAtRoute(routeName, routeValues, new ApiResponseWithData<T> { Data = data, Success = true });
+            base.CreatedAtRoute(routeName, routeValues, new ApiResponseWithData<T> { Data = data, success = true });
 
         protected IActionResult BadRequest(string message) =>
-            base.BadRequest(new ApiResponse { mensagem = message, Success = false });
+            base.BadRequest(new ApiResponse { mensagem = message, success = false });
 
         protected IActionResult NotFound(string message = "Resource not found") =>
-            base.NotFound(new ApiResponse { mensagem = message, Success = false });
+            base.NotFound(new ApiResponse { mensagem = message, success = false });
 
         protected IActionResult OkPaginated<T>(PaginatedList<T> pagedList) =>
                 Ok(new PaginatedResponse<T>
@@ -32,7 +32,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Common
                     CurrentPage = pagedList.CurrentPage,
                     TotalPages = pagedList.TotalPages,
                     TotalCount = pagedList.TotalCount,
-                    Success = true
+                    success = true
                 });
     }
 }

@@ -20,7 +20,7 @@ public class UserConsumer : BackgroundService
         _settings = options.Value;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         var factory = new ConnectionFactory
         {
@@ -40,7 +40,7 @@ public class UserConsumer : BackgroundService
             exclusive: false,
             autoDelete: false,
             arguments: null,
-            cancellationToken: stoppingToken
+            cancellationToken: cancellationToken
         );
 
         var consumer = new AsyncEventingBasicConsumer(channel);
@@ -54,7 +54,7 @@ public class UserConsumer : BackgroundService
             var user = JsonSerializer.Deserialize<Motorcycle>(message);
 
             if (user != null)
-                await userRepository.AddAsync(user);
+                await userRepository.AddAsync(user, cancellationToken);
         };
 
         await channel.BasicConsumeAsync(
@@ -63,6 +63,6 @@ public class UserConsumer : BackgroundService
             consumer: consumer
         );
 
-        await Task.Delay(Timeout.Infinite, stoppingToken);
+        await Task.Delay(Timeout.Infinite, cancellationToken);
     }
 }

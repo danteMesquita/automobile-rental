@@ -7,6 +7,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons.Updat
         public UpdateLicensePlatePhotoRequestValidator()
         {
             RuleFor(x => x.imagem_cnh)
+                .NotNull()
                 .NotEmpty()
                 .WithMessage("Driver's license image is required.");
         }

@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Entities;
 
 namespace AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.UpdateLicensePlatePhoto
 {
-    internal class UpdateLicensePlatePhotoProfile
+    public class UpdateLicensePlatePhotoProfile : Profile
     {
+        public UpdateLicensePlatePhotoProfile()
+        {
+            CreateMap<UpdateLicensePlatePhotoCommand, DeliveryPerson>();
+
+            CreateMap<DeliveryPerson, UpdateLicensePlatePhotoResult>();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutomobileRentalManagementAPI.Domain.Enums;
+﻿using AutomobileRentalManagementAPI.Domain.Entities.Base;
+using AutomobileRentalManagementAPI.Domain.Enums;
 
 namespace AutomobileRentalManagementAPI.Domain.Entities
 {

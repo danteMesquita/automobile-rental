@@ -7,6 +7,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 
 namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
 {
@@ -21,7 +22,7 @@ namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
             _settings = options.Value;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             var factory = new ConnectionFactory
             {
@@ -41,7 +42,7 @@ namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
                 exclusive: false,
                 autoDelete: false,
                 arguments: null,
-                cancellationToken: stoppingToken
+                cancellationToken: cancellationToken
             );
 
             var consumer = new AsyncEventingBasicConsumer(channel);
@@ -55,7 +56,7 @@ namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
                 var motorcycle = JsonSerializer.Deserialize<AutomobileRentalManagementAPI.Domain.Entities.Motorcycle>(message);
 
                 if (motorcycle != null)
-                    await motorcycleRepository.AddAsync(motorcycle);
+                    await motorcycleRepository.AddAsync(motorcycle, cancellationToken);
             };
 
             await channel.BasicConsumeAsync(
@@ -64,7 +65,7 @@ namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
                 consumer: consumer
             );
 
-            await Task.Delay(Timeout.Infinite, stoppingToken);
+            await Task.Delay(Timeout.Infinite, cancellationToken);
         }
     }
 }

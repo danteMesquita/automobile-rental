@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AutomobileRentalManagementAPI.Domain.Entities
+namespace AutomobileRentalManagementAPI.Domain.Entities.Base
 {
     public class BaseEntity
     {

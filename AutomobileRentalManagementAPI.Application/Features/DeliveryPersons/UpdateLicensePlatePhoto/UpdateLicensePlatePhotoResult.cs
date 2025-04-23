@@ -2,6 +2,6 @@
 {
     public class UpdateLicensePlatePhotoResult
     {
-        public string LicensePlate { get; set; } = null!;
+        public Guid NavigationId { get; set; }
     }
 }

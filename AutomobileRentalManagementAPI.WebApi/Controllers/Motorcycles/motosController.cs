@@ -36,7 +36,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
 
             return Created(string.Empty, new ApiResponseWithData<CreateMotorcycleResponse>
             {
-                Success = true,
+                success = true,
                 mensagem = "Motorcycle created successfully", // TODO: Ajustar mensagens para ficar igual a do swagger deles
                 Data = _mapper.Map<CreateMotorcycleResponse>(response)
             });

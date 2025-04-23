@@ -1,11 +1,17 @@
 ﻿using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
 using AutomobileRentalManagementAPI.Application.MessageQueue.Publishers.Motorcycle;
+using AutomobileRentalManagementAPI.Domain.HttpRepositories;
 using AutomobileRentalManagementAPI.Domain.Repositories;
+using AutomobileRentalManagementAPI.Domain.Repositories.Base;
+using AutomobileRentalManagementAPI.Domain.Repositories.DeliveryPersons;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.Infra.Contexts;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
+using AutomobileRentalManagementAPI.Infra.HttpRepositories;
 using AutomobileRentalManagementAPI.Infra.MessageQueue.RabbitMq;
 using AutomobileRentalManagementAPI.Infra.Repositories;
+using AutomobileRentalManagementAPI.Infra.Repositories.Base;
+using AutomobileRentalManagementAPI.Infra.Repositories.DeliveryPersons;
 using AutomobileRentalManagementAPI.Infra.Repositories.Motorcycles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +27,9 @@ namespace AutomobileRentalManagementAPI.Ioc
         services
             .AddContext()
             .AddScoped<IDbConnectionFactory, NpgConnectionFactory>()
+            .AddHttpRepositories()
             .AddRepositories()
-            .AddServices()
+            .AddPublishers()
             .AddRabbitMq(configuration);
 
         private static IServiceCollection AddRepositories(this IServiceCollection services) =>
@@ -31,9 +38,13 @@ namespace AutomobileRentalManagementAPI.Ioc
                 .AddScoped(typeof(IMongoRepositoryBase<>), typeof(MongoRepositoryBase<>))
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IMotorcycleRepository, MotorcycleRepository>()
-                .AddScoped<IMotorcycleMongoRepository, MotorcycleMongoRepository>();
+                .AddScoped<IMotorcycleMongoRepository, MotorcycleMongoRepository>()
+                .AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
 
-        private static IServiceCollection AddServices(this IServiceCollection services) =>
+        private static IServiceCollection AddHttpRepositories(this IServiceCollection services) =>
+            services.AddScoped<IBlobHttpRepository, BlobHttpRepository>();
+
+        private static IServiceCollection AddPublishers(this IServiceCollection services) =>
             services
                 .AddScoped<IUserPublisher, UserPublisher>()
                 .AddScoped<IMotorcyclePublisher, MotorcyclePublisher>();

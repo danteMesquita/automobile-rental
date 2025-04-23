@@ -1,6 +1,7 @@
 using AutomobileRentalManagementAPI.Application;
 using AutomobileRentalManagementAPI.CrossCutting.Validation;
 using AutomobileRentalManagementAPI.Ioc;
+using AutomobileRentalManagementAPI.WebApi.Middlewares;
 using AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle;
 using MediatR;
 
@@ -31,6 +32,8 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -22,17 +22,17 @@ namespace AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.Cre
                 .NotEmpty().WithMessage("Birth date is required.")
                 .LessThan(DateTime.UtcNow).WithMessage("Birth date must be in the past.");
 
-            RuleFor(x => x.DriverLicenseNumber)
+            RuleFor(x => x.LicenseNumber)
                 .NotEmpty().WithMessage("Driver's license number is required.")
                 .Length(11).WithMessage("Driver's license number must be 11 digits.")
                 .Matches(@"^\d+$").WithMessage("Driver's license number must contain only digits.");
 
-            RuleFor(x => x.DriverLicenseType)
-               .NotNull().NotEmpty().WithMessage("Driver's license type is required.")
-               .Must(value => ValidationUtil.IsValidEnumDescription<CnhType>(value))
+            RuleFor(x => x.LicenseType)
+               .NotNull().WithMessage("Driver's license type is required.")
+               .Must(value => Enum.IsDefined(typeof(CnhType), value))
                .WithMessage("Driver's license type is invalid. Allowed values: A, B, A+B.");
 
-            RuleFor(x => x.DriverLicenseImage)
+            RuleFor(x => x.LicenseImageBase64)
                 .NotEmpty().WithMessage("Driver's license image is required.");
         }
     }

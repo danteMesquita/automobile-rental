@@ -6,9 +6,9 @@
         public string identificador { get; init; } = null!;
         public string nome { get; init; } = null!;
         public string cnpj { get; init; } = null!;
-        public DateTime dataNascimento { get; init; }
-        public string numeroCnh { get; init; } = null!;
-        public string tipoCnh { get; init; } = null!;
-        public string imagemCnh { get; init; } = null!;
+        public DateTime data_nascimento { get; init; }
+        public string numero_cnh { get; init; } = null!;
+        public string tipo_cnh { get; init; } = null!;
+        public string imagem_cnh { get; init; } = null!;
     }
 }

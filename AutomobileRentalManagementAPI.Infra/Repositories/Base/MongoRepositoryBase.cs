@@ -5,7 +5,7 @@ using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace AutomobileRentalManagementAPI.Infra.Repositories
+namespace AutomobileRentalManagementAPI.Infra.Repositories.Base
 {
     public class MongoRepositoryBase<T> : IMongoRepositoryBase<T> where T : IDocument
     {

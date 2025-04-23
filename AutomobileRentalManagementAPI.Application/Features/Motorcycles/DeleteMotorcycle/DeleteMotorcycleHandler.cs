@@ -23,9 +23,9 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteM
             //var saleRelated = await _saleRepository.GetAllByMotorcycleId(request.Id, cancellationToken);
             //if (saleRelated != null && saleRelated.Count() > 0) throw new DomainException("The Motorcycle cannot be deleted as they have associated sales.");
 
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(command.Id);
+            var motorcycle = await _motorcycleRepository.GetByIdAsync(command.Id, cancellationToken);
             if (motorcycle != null)
-                await _motorcycleRepository.DeleteAsync(motorcycle);
+                await _motorcycleRepository.DeleteAsync(motorcycle, cancellationToken);
 
             return new DeleteMotorcycleResponse { Success = true };
         }

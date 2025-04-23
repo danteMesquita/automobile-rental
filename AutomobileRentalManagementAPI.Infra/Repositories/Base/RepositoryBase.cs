@@ -1,15 +1,15 @@
-﻿using AutomobileRentalManagementAPI.Domain.Entities;
-using AutomobileRentalManagementAPI.Domain.Repositories;
+﻿using AutomobileRentalManagementAPI.Domain.Entities.Base;
+using AutomobileRentalManagementAPI.Domain.Repositories.Base;
 using AutomobileRentalManagementAPI.Infra.Contexts.Impl;
 using Microsoft.EntityFrameworkCore;
 
-namespace AutomobileRentalManagementAPI.Infra.Repositories
+namespace AutomobileRentalManagementAPI.Infra.Repositories.Base
 {
     public class RepositoryBase<T>(RentalDbContext db) : IRepositoryBase<T> where T : BaseEntity
     {
         protected readonly DbSet<T> _dbSet = db.Set<T>();
 
-        public async Task<T> AddAsync(T entity, bool isActive = true)
+        public async Task<T> AddAsync(T entity, CancellationToken cancellationToken, bool isActive = true)
         {
             await db.AddAsync(entity);
             await db.SaveChangesAsync();
@@ -17,7 +17,7 @@ namespace AutomobileRentalManagementAPI.Infra.Repositories
             return entity;
         }
 
-        public async Task<List<T>> AddRangeAsync(List<T> entities)
+        public async Task<List<T>> AddRangeAsync(List<T> entities, CancellationToken cancellationToken)
         {
             foreach (var entity in entities)
             {
@@ -30,7 +30,7 @@ namespace AutomobileRentalManagementAPI.Infra.Repositories
             return entities;
         }
 
-        public async Task UpdateRangeAsync(List<T> entities)
+        public async Task UpdateRangeAsync(List<T> entities, CancellationToken cancellationToken)
         {
             foreach (var item in entities)
             {
@@ -40,19 +40,19 @@ namespace AutomobileRentalManagementAPI.Infra.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var find = await db.Set<T>().FindAsync(id);
 
             if (find != null)
-                db.Entry<T>(find).State = EntityState.Detached;
+                db.Entry(find).State = EntityState.Detached;
 
             return find;
         }
 
-        public async Task<List<T>> GetAllAsync() => await db.Set<T>().AsNoTracking().ToListAsync();
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken) => await db.Set<T>().AsNoTracking().ToListAsync();
 
-        public async Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken)
         {
             db.Entry(entity).State = EntityState.Modified;
             await db.SaveChangesAsync();
@@ -60,13 +60,13 @@ namespace AutomobileRentalManagementAPI.Infra.Repositories
             return entity;
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity, CancellationToken cancellationToken)
         {
             db.Set<T>().Remove(entity);
             await db.SaveChangesAsync();
         }
 
-        public async Task DeleteRangeAsync(List<T> entities)
+        public async Task DeleteRangeAsync(List<T> entities, CancellationToken cancellationToken)
         {
             if (entities != null)
             {

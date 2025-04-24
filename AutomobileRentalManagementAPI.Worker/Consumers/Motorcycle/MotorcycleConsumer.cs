@@ -56,7 +56,10 @@ namespace AutomobileRentalManagementAPI.Worker.Consumers.Motorcycle
                 var motorcycle = JsonSerializer.Deserialize<AutomobileRentalManagementAPI.Domain.Entities.Motorcycle>(message);
 
                 if (motorcycle != null)
+                {
+                    motorcycle.NavigationId = Guid.NewGuid();
                     await motorcycleRepository.AddAsync(motorcycle, cancellationToken);
+                }
             };
 
             await channel.BasicConsumeAsync(

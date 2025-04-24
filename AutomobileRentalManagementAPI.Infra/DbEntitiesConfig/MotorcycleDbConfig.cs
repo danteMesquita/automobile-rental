@@ -10,8 +10,10 @@ namespace AutomobileRentalManagementAPI.Infra.DbEntitiesConfig
         {
             builder.ToTable(nameof(Motorcycle));
 
-            builder.Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
             builder.HasKey(x => x.NavigationId);
+
+            builder.Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
+       
             builder.Property(x => x.NavigationId).IsRequired().ValueGeneratedOnAdd();
 
             builder.Property(x => x.Identifier).HasColumnType("text").IsRequired();

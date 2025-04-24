@@ -2,8 +2,9 @@
 using System.Net;
 using System.Text.Json;
 using AutomobileRentalManagementAPI.WebApi.Common;
-using System.ComponentModel.DataAnnotations;
+
 using AutomobileRentalManagementAPI.Domain.CustomExceptions;
+using FluentValidation;
 
 namespace AutomobileRentalManagementAPI.WebApi.Middlewares
 {

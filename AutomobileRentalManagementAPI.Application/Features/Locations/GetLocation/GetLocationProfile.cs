@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Entities;
 
 namespace AutomobileRentalManagementAPI.Application.Features.Locations.GetLocation
 {
@@ -6,7 +7,7 @@ namespace AutomobileRentalManagementAPI.Application.Features.Locations.GetLocati
     {
         public GetLocationProfile()
         {
-            
+            CreateMap<Location, GetLocationResult>();
         }
     }
 }

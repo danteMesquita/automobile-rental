@@ -25,6 +25,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await new CreateLocationRequestValidator().ValidateAsync(request, cancellationToken);
@@ -33,7 +34,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations
             var command = _mapper.Map<CreateLocationCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Created();
+            return Created($"/get/{response.NavigationId}", response);
         }
 
         [HttpGet("{id}")]
@@ -43,28 +44,33 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations
         public async Task<IActionResult> Get([FromRoute] string id, CancellationToken cancellationToken)
         {
             Guid navigationId = Guid.Parse(id);
+            var command = new GetLocationCommand();
+            command.NavigationId = navigationId;
 
-            var command = _mapper.Map<GetLocationCommand>(navigationId);
             var response = await _mediator.Send(command, cancellationToken);
-            var mappedResponse = _mapper.Map<GetLocationResponse>(response);
+            if(response == null) return NotFound();
 
+            var mappedResponse = _mapper.Map<GetLocationResponse>(response);
             return Ok(mappedResponse);
         }
 
         [HttpPut("{id}/devolucao")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpdateLocationRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await new UpdateLocationRequestValidator().ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
 
             var command = _mapper.Map<UpdateLocationCommand>(request);
+            command.NavigationId = Guid.Parse(id);
             var response = await _mediator.Send(command, cancellationToken);
+            var totalValueString = Convert.ToDecimal(response.TotalValue).ToString("N2");
 
             return Ok(new ApiResponse()
             {
-                mensagem = "Data de devolução informada com sucesso"
+                mensagem = "Data de devolução informada com sucesso. Valor total: R$" + totalValueString
             });
         }
     }

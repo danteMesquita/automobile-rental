@@ -74,11 +74,15 @@ namespace AutomobileRentalManagementAPI.Infra.Migrations
 
             modelBuilder.Entity("AutomobileRentalManagementAPI.Domain.Entities.Location", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("NavigationId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<decimal>("DailyValue")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("DevolutionDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
@@ -86,13 +90,16 @@ namespace AutomobileRentalManagementAPI.Infra.Migrations
                     b.Property<DateTime>("EstimatedEndDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<Guid>("IdDeliveryPerson")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("IdMotorcycle")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("NavigationId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Plan")
@@ -101,7 +108,10 @@ namespace AutomobileRentalManagementAPI.Infra.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+                    b.Property<decimal?>("TotalValue")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("NavigationId");
 
                     b.HasIndex("IdDeliveryPerson");
 
@@ -176,7 +186,7 @@ namespace AutomobileRentalManagementAPI.Infra.Migrations
 
             modelBuilder.Entity("AutomobileRentalManagementAPI.Domain.Entities.Location", b =>
                 {
-                    b.HasOne("AutomobileRentalManagementAPI.Domain.Entities.User", null)
+                    b.HasOne("AutomobileRentalManagementAPI.Domain.Entities.DeliveryPerson", null)
                         .WithMany()
                         .HasForeignKey("IdDeliveryPerson")
                         .OnDelete(DeleteBehavior.Restrict)

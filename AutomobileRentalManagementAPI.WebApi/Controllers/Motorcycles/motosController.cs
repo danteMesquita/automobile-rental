@@ -42,7 +42,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
             var command = _mapper.Map<CreateMotorcycleCommand>(request);
             await _mediator.Send(command, cancellationToken);
 
-            return Created($"/api/motorcycles/", null);
+            return Created($"/api/motos/", null);
         }
 
         [HttpGet]

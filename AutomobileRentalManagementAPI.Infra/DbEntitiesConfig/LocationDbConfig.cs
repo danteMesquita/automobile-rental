@@ -10,15 +10,18 @@ namespace AutomobileRentalManagementAPI.Infra.DbEntitiesConfig
         {
             builder.ToTable(nameof(Location));
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(d => d.NavigationId);
+            
             builder.Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
+
+            builder.Property(x => x.NavigationId).IsRequired().ValueGeneratedOnAdd();
 
             builder.Property(x => x.StartDate).IsRequired();
             builder.Property(x => x.EndDate).IsRequired();
             builder.Property(x => x.EstimatedEndDate).IsRequired();
             builder.Property(x => x.Plan).IsRequired();
 
-            builder.HasOne<User>()
+            builder.HasOne<DeliveryPerson>()
                    .WithMany()
                    .HasForeignKey(x => x.IdDeliveryPerson)
                    .OnDelete(DeleteBehavior.Restrict);

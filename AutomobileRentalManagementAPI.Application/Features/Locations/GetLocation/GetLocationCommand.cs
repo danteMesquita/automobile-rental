@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace AutomobileRentalManagementAPI.Application.Features.Locations.GetLocation
 {
-    public class GetLocationCommand
+    public class GetLocationCommand : IRequest<GetLocationResult>
     {
-
+        public Guid NavigationId { get; set; }
     }
 }

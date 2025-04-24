@@ -2,8 +2,9 @@
 
 namespace AutomobileRentalManagementAPI.Application.Features.Locations.PutLocation
 {
-    public class UpdateLocationCommand : IRequest<UpdateLocationResult>
+    public class UpdateLocationCommand : IRequest<UpdatedLocationResult>
     {
-        public DateTime EndDate { get; set; }
+        public Guid NavigationId { get; set; }
+        public DateTime DevolutionDate { get; set; }
     }
 }

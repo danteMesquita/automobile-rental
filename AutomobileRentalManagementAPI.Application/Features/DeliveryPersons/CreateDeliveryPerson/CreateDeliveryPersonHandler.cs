@@ -45,6 +45,8 @@ namespace AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.Cre
 
             var mappedResult = _mapper.Map<DeliveryPerson>(command);
             mappedResult.LicenseImageUrl = imgPublicURL;
+            mappedResult.NavigationId = Guid.NewGuid();
+
             var createdDeliveryPerson = await _deliveryPersonRepository.AddAsync(mappedResult, cancellationToken);
             
             return _mapper.Map<CreatedDeliveryPersonResult>(createdDeliveryPerson);

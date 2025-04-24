@@ -15,8 +15,7 @@ namespace AutomobileRentalManagementAPI.Infra.DbEntitiesConfig
             builder.Property(d => d.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(d => d.NavigationId)
-                .IsRequired();
+            builder.Property(x => x.NavigationId).IsRequired().ValueGeneratedOnAdd();
 
             builder.Property(d => d.Identifier)
                 .IsRequired()

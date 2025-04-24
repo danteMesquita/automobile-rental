@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Entities;
 
 namespace AutomobileRentalManagementAPI.Application.Features.Locations.CreateLocation
 {
-    public class CreateLocationProfile
+    public class CreateLocationProfile : Profile
     {
+        public CreateLocationProfile()
+        {
+            CreateMap<CreateLocationCommand, Location>();
+            CreateMap<Location, CreatedLocationResult>();
+        }
     }
 }

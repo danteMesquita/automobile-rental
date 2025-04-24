@@ -1,8 +1,8 @@
 ﻿using AutomobileRentalManagementAPI.Domain.Enums;
 
-namespace AutomobileRentalManagementAPI.Application.Features.Locations.GetLocation
+namespace AutomobileRentalManagementAPI.Application.Features.Locations.CreateLocation
 {
-    public class GetLocationResult
+    public class CreatedLocationResult
     {
         public Guid NavigationId { get; set; }
         public Guid IdDeliveryPerson { get; set; }
@@ -11,8 +11,5 @@ namespace AutomobileRentalManagementAPI.Application.Features.Locations.GetLocati
         public DateTime EndDate { get; set; }
         public DateTime EstimatedEndDate { get; set; }
         public LocationPlan Plan { get; set; }
-        public decimal DailyValue { get; set; }
-        public DateTime? DevolutionDate { get; set; }
-        public decimal TotalValue { get; set; }
     }
 }

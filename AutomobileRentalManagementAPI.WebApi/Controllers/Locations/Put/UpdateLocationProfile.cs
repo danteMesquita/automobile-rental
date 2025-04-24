@@ -8,10 +8,10 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations.Put
         public UpdateLocationProfile()
         {
             CreateMap<UpdateLocationRequest, UpdateLocationCommand>()
-                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.data_devolucao));
+                .ForMember(dest => dest.DevolutionDate, opt => opt.MapFrom(src => src.data_devolucao));
 
 
-            CreateMap<UpdateLocationResult, UpdateLocationResponse>();
+            CreateMap<UpdatedLocationResult, UpdateLocationResponse>();
         }
     }
 }

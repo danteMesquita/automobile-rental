@@ -2,6 +2,6 @@
 {
     public class GetMotorcycleRequest
     {
-        public string placa { get; set; } = null!;
+        public Guid NavigationId { get; set; }
     }
 }

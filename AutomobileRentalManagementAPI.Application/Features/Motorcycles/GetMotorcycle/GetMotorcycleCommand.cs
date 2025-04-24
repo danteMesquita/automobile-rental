@@ -1,8 +1,14 @@
-﻿namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMotorcycle
+﻿using MediatR;
+
+namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMotorcycle
 {
-    public sealed class GetMotorcycleCommand
+    public class GetMotorcycleCommand : IRequest<GetMotorcycleResult>
     {
-        public Guid NavigationId { get; init; }
-        public string LicensePlate { get; set; } = null!;
+        public Guid NavigationId { get; set; }
+
+        public GetMotorcycleCommand(Guid navigationId)
+        {
+            NavigationId = navigationId;
+        }
     }
 }

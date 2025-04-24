@@ -5,7 +5,7 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMoto
 {
     public class GetMotorcycleProfile : Profile
     {
-        public GetMotorcycleProfile() 
+        public GetMotorcycleProfile()
         {
             CreateMap<Motorcycle, GetMotorcycleResult>();
         }

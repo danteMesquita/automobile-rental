@@ -5,10 +5,9 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateM
 {
     public class UpdateMotorcycleProfile : Profile
     {
-        public UpdateMotorcycleProfile() 
+        public UpdateMotorcycleProfile()
         {
             CreateMap<Motorcycle, UpdateMotorcycleResult>();
-            CreateMap<UpdateMotorcycleCommand, Motorcycle>();
         }
     }
 }

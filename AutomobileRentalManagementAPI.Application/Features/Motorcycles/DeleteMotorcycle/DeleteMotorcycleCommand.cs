@@ -2,8 +2,13 @@
 
 namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteMotorcycle
 {
-    public class DeleteMotorcycleCommand : IRequest<DeleteMotorcycleResponse>
+    public class DeleteMotorcycleCommand : IRequest<Unit>
     {
-        public Guid Id { get; }
+        public Guid NavigationId { get; set; }
+
+        public DeleteMotorcycleCommand(Guid navigationId)
+        {
+            NavigationId = navigationId;
+        }
     }
 }

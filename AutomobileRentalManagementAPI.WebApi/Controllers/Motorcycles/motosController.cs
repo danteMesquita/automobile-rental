@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.CreateMotorcycle;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteMotorcycle;
+using AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycles;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMotorcycle;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateMotorcycle;
 using AutomobileRentalManagementAPI.WebApi.Common;
 using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Create;
+using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Delete;
 using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Get;
+using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.GetAll;
 using AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Put;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,78 +32,101 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
         public async Task<IActionResult> Create([FromBody] CreateMotorcycleRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await new CreateMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
+            if (!validationResult.IsValid) return BadRequest(new ApiResponse()
+            {
+                success = false,
+                mensagem = "Dados inválidos",
+                errors = validationResult.Errors
+            });
 
             var command = _mapper.Map<CreateMotorcycleCommand>(request);
-            var response = await _mediator.Send(command, cancellationToken);
+            await _mediator.Send(command, cancellationToken);
 
-            return Created(string.Empty, new ApiResponseWithData<CreateMotorcycleResponse>
-            {
-                success = true,
-                mensagem = "Motorcycle created successfully", // TODO: Ajustar mensagens para ficar igual a do swagger deles
-                Data = _mapper.Map<CreateMotorcycleResponse>(response)
-            });
+            return Created($"/api/motorcycles/", null);
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<GetMotorcycleResponse>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] GetMotorcycleRequest request, CancellationToken cancellationToken)
+        [ProducesResponseType(typeof(IEnumerable<GetAllMotorcyclesResponse>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll([FromQuery] GetAllMotorcyclesRequest request, CancellationToken cancellationToken)
         {
-            var validationResult = await new GetMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
-
+            var validationResult = await new GetAllMotorcyclesRequestValidator().ValidateAsync(request, cancellationToken);
             if (!validationResult.IsValid)
                 return BadRequest(validationResult.Errors);
 
-            var command = _mapper.Map<GetMotorcycleCommand>(request.placa);
-            var response = await _mediator.Send(command, cancellationToken);
-            var responseMap = _mapper.Map<GetMotorcycleResponse>(response);
+            var command = _mapper.Map<GetAllMotorcyclesCommand>(request);
+            var result = await _mediator.Send(command, cancellationToken);
+            var mapped = _mapper.Map<List<GetAllMotorcyclesResponse>>(result.Items);
 
-            return Ok(responseMap);
+            return OkRaw(mapped);
         }
 
         [HttpPut("{id}/placa")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UpdateMotorcycleResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpdateMotorcycleRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateMotorcyclePlateRequest placa, CancellationToken cancellationToken)
         {
+            var request = new UpdateMotorcycleRequest()
+            {
+                LicensePlate = placa.placa,
+                NavigationId = id,
+            };
+
             var validationResult = await new UpdateMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
+            if (!validationResult.IsValid) return BadRequest(new ApiResponse()
+            {
+                success = false,
+                mensagem = "Dados inválidos",
+                errors = validationResult.Errors
+            });
 
             var command = _mapper.Map<UpdateMotorcycleCommand>(request);
-            var response = await _mediator.Send(command, cancellationToken);
+            await _mediator.Send(command, cancellationToken);
+            string mensagem = "Placa modificada com sucesso";
 
-            return Ok(new ApiResponse()
-            {
-                mensagem = "Placa modificada com sucesso"
-            });
+            return OkRaw(new { mensagem });
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GetMotorcycleResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromRoute] string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            Guid navigationId = Guid.Parse(id);
+            var request = new GetMotorcycleRequest()
+            {
+                NavigationId = id
+            };
 
-            var command = _mapper.Map<GetMotorcycleCommand>(navigationId);
+            var validationResult = await new GetMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid) return BadRequestRaw("Request mal formada");
+
+            var command = _mapper.Map<GetMotorcycleCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
+            if (response == null) 
+                return NotFoundRaw("Moto não encontrada");
+
             var mappedResponse = _mapper.Map<GetMotorcycleResponse>(response);
 
-            return Ok(mappedResponse);
+            return OkRaw(mappedResponse);
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] string id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            Guid navigationId = Guid.Parse(id);
+            var request = new DeleteMotorcycleRequest()
+            {
+                NavigationId = id
+            };
 
-            var command = _mapper.Map<DeleteMotorcycleCommand>(navigationId);
+            var validationResult = await new DeleteMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
+            if (!validationResult.IsValid) return BadRequestRaw("Dados inválidos");
+
+            var command = _mapper.Map<DeleteMotorcycleCommand>(request);
             await _mediator.Send(command, cancellationToken);
 
-            return Ok();
+            return OkRaw();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.GetAll
 {
-    public class GetAllMotorcycleRequest
+    public class GetAllMotorcyclesRequest
     {
+        public string? LicensePlate { get; set; }
     }
 }

@@ -6,10 +6,8 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Put
     {
         public UpdateMotorcycleRequestValidator()
         {
-            RuleFor(motorcycle => motorcycle.placa)
-                .NotNull()
-                .NotEmpty()
-                .Length(8);
+            RuleFor(x => x.NavigationId).NotEmpty();
+            RuleFor(x => x.LicensePlate).NotEmpty().MaximumLength(8);
         }
     }
 }

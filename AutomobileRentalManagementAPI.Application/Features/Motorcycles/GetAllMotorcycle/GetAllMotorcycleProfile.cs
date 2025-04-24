@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Entities;
 
-namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycle
+namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycles
 {
-    public class GetAllMotorcycleProfile
+    public class GetAllMotorcyclesProfile : Profile
     {
+        public GetAllMotorcyclesProfile()
+        {
+            CreateMap<Motorcycle, MotorcycleItem>();
+        }
     }
 }

@@ -6,10 +6,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Get
     {
         public GetMotorcycleRequestValidator()
         {
-            RuleFor(motorcycle => motorcycle.placa)
-              .NotNull()
-              .NotEmpty()
-              .Length(8);
+            RuleFor(x => x.NavigationId).NotEmpty().NotEqual(Guid.Empty).WithMessage("Id is required");
         }
     }
 }

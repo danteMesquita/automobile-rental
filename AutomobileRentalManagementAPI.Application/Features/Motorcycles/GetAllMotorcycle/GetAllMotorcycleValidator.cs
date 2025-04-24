@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
-namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycle
+namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycles
 {
-    public class GetAllMotorcycleValidator
+    public class GetAllMotorcyclesValidator : AbstractValidator<GetAllMotorcyclesCommand>
     {
+        public GetAllMotorcyclesValidator()
+        {
+            RuleFor(x => x.LicensePlate)
+                .MaximumLength(8)
+                .When(x => !string.IsNullOrWhiteSpace(x.LicensePlate));
+        }
     }
 }

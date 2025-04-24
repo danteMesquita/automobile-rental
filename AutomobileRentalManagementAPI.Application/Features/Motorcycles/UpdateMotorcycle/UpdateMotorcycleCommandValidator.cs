@@ -6,9 +6,8 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateM
     {
         public UpdateMotorcycleCommandValidator()
         {
-            RuleFor(x => x.LicensePlate)
-                .NotNull()
-                .NotEmpty();
+            RuleFor(x => x.NavigationId).NotEmpty();
+            RuleFor(x => x.LicensePlate).NotEmpty().MaximumLength(8);
         }
     }
 }

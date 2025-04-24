@@ -39,7 +39,8 @@ namespace AutomobileRentalManagementAPI.Ioc
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IMotorcycleRepository, MotorcycleRepository>()
                 .AddScoped<IMotorcycleMongoRepository, MotorcycleMongoRepository>()
-                .AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
+                .AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>()
+                .AddScoped<ILocationRepository, LocationRepository>();
 
         private static IServiceCollection AddHttpRepositories(this IServiceCollection services) =>
             services.AddScoped<IBlobHttpRepository, BlobHttpRepository>();

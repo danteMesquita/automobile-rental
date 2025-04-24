@@ -1,33 +1,41 @@
-﻿using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
+﻿using AutomobileRentalManagementAPI.Domain.Repositories;
+using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using FluentValidation;
 using MediatR;
 
 namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteMotorcycle
 {
-    public class DeleteMotorcycleHandler : IRequestHandler<DeleteMotorcycleCommand, DeleteMotorcycleResponse>
+    public class DeleteMotorcycleHandler : IRequestHandler<DeleteMotorcycleCommand, Unit>
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
+        private readonly ILocationRepository _locationRepository;
 
-        public DeleteMotorcycleHandler(IMotorcycleRepository MotorcycleRepository)
+        public DeleteMotorcycleHandler(
+            IMotorcycleRepository motorcycleRepository,
+            ILocationRepository locationRepository)
         {
-            _motorcycleRepository = MotorcycleRepository;
+            _motorcycleRepository = motorcycleRepository;
+            _locationRepository = locationRepository;
         }
 
-        public async Task<DeleteMotorcycleResponse> Handle(DeleteMotorcycleCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteMotorcycleCommand command, CancellationToken cancellationToken)
         {
             var validator = new DeleteMotorcycleValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
 
-            // SÒ PUEDE DELETAR SE NON HOUVER LOCACION
-            //var saleRelated = await _saleRepository.GetAllByMotorcycleId(request.Id, cancellationToken);
-            //if (saleRelated != null && saleRelated.Count() > 0) throw new DomainException("The Motorcycle cannot be deleted as they have associated sales.");
+            var hasLocation = await _locationRepository.HasAnyWithMotorcycleAsync(command.NavigationId, cancellationToken);
+            if (hasLocation)
+                throw new InvalidOperationException("It is not possible to remove the motorcycle. It is linked to one or more rentals.");
 
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(command.Id, cancellationToken);
-            if (motorcycle != null)
-                await _motorcycleRepository.DeleteAsync(motorcycle, cancellationToken);
+            var motorcycle = await _motorcycleRepository.GetByIdAsync(command.NavigationId, cancellationToken);
+            if (motorcycle is null)
+                throw new KeyNotFoundException("Motorcycle not found");
 
-            return new DeleteMotorcycleResponse { Success = true };
+            await _motorcycleRepository.DeleteAsync(motorcycle, cancellationToken);
+
+            return Unit.Value;
         }
     }
 }

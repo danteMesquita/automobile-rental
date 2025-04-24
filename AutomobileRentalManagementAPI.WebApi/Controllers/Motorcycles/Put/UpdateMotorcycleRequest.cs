@@ -1,7 +1,8 @@
 ﻿namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles.Put
 {
-    public sealed class UpdateMotorcycleRequest
+    public class UpdateMotorcycleRequest
     {
-        public string placa { get; init; } = null!;
+        public Guid NavigationId { get; set; }
+        public string LicensePlate { get; set; } = null!;
     }
 }

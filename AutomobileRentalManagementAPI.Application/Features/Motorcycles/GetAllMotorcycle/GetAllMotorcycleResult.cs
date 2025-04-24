@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycle
+﻿namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycles
 {
-    public class GetAllMotorcycleResult
+    public class GetAllMotorcyclesResult
     {
+        public List<MotorcycleItem> Items { get; set; } = [];
+    }
+
+    public class MotorcycleItem
+    {
+        public string Identifier { get; set; } = null!;
+        public int Year { get; set; }
+        public string Model { get; set; } = null!;
+        public string LicensePlate { get; set; } = null!;
     }
 }

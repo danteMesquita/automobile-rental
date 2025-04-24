@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycle
+namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetAllMotorcycles
 {
-    public class GetAllMotorcycleCommand
+    public class GetAllMotorcyclesCommand : IRequest<GetAllMotorcyclesResult>
     {
+        public string? LicensePlate { get; set; }
     }
 }

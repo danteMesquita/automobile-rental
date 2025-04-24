@@ -6,9 +6,7 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteM
     {
         public DeleteMotorcycleValidator()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty()
-                .NotNull();
+            RuleFor(x => x.NavigationId).NotEmpty().WithMessage("Id is required");
         }
     }
 }

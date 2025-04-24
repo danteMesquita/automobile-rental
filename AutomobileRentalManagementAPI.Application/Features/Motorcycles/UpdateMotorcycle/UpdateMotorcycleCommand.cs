@@ -4,6 +4,7 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateM
 {
     public class UpdateMotorcycleCommand : IRequest<UpdateMotorcycleResult>
     {
+        public Guid NavigationId { get; set; }
         public string LicensePlate { get; set; } = null!;
     }
 }

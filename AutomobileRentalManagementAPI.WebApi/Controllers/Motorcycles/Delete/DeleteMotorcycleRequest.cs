@@ -2,5 +2,6 @@
 {
     public class DeleteMotorcycleRequest
     {
+        public Guid NavigationId { get; set; }
     }
 }

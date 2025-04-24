@@ -1,4 +1,5 @@
-﻿using AutomobileRentalManagementAPI.Application.MessageQueue.Interfaces;
+﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using FluentValidation;
 using MediatR;
 
@@ -6,26 +7,31 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateM
 {
     public class UpdateMotorcycleHandler : IRequestHandler<UpdateMotorcycleCommand, UpdateMotorcycleResult>
     {
-        private readonly IMotorcyclePublisher _motorcyclePublisher;
+        private readonly IMotorcycleRepository _repository;
+        private readonly IMapper _mapper;
 
-        public UpdateMotorcycleHandler(IMotorcyclePublisher motorcyclePublisher)
+        public UpdateMotorcycleHandler(IMotorcycleRepository repository, IMapper mapper)
         {
-            _motorcyclePublisher = motorcyclePublisher;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<UpdateMotorcycleResult> Handle(UpdateMotorcycleCommand command, CancellationToken cancellationToken)
         {
             var validator = new UpdateMotorcycleCommandValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
-            if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
 
-            throw new NotImplementedException();
-            //if (command.Year == 2024)
-            //    await _motorcyclePublisher.PublishAsync(command, "notification-queue");
+            var motorcycle = await _repository.GetByIdAsync(command.NavigationId, cancellationToken);
+            if (motorcycle is null)
+                throw new KeyNotFoundException("Motorcycle not found");
 
-            //await _motorcyclePublisher.PublishAsync(command, "motorcycle-queue");
+            motorcycle.LicensePlate = command.LicensePlate;
 
-            //return new UpdateMotorcycleResult();
+            await _repository.UpdateAsync(motorcycle, cancellationToken);
+
+            return _mapper.Map<UpdateMotorcycleResult>(motorcycle);
         }
     }
 }

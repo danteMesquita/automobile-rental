@@ -47,7 +47,6 @@ namespace AutomobileRentalManagementAPI.Ioc
 
         private static IServiceCollection AddPublishers(this IServiceCollection services) =>
             services
-                .AddScoped<IUserPublisher, UserPublisher>()
                 .AddScoped<IMotorcyclePublisher, MotorcyclePublisher>();
 
         private static IServiceCollection AddContext(this IServiceCollection services)

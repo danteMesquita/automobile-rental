@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 DependencyInjection.AddInfraData(builder.Services, builder.Configuration);
 
-builder.Services.AddHostedService<UserConsumer>();
 builder.Services.AddHostedService<MotorcycleConsumer>();
 builder.Services.AddHostedService<MotorcycleNotificationConsumer>();
 

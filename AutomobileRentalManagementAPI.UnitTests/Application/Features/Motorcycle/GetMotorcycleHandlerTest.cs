@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.GetMotorcycle;
+using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.TestTools.Application;
 using FluentValidation;
@@ -39,7 +40,7 @@ namespace AutomobileRentalManagementAPI.UnitTests.Application.Features.Motorcycl
         {
             var command = new GetMotorcycleCommand(Guid.NewGuid());
 
-            _repoMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Domain.Entities.Motorcycle?)null);
+            _repoMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Motorcycle)null!);
 
             var result = await _handler.Handle(command, CancellationToken.None);
 

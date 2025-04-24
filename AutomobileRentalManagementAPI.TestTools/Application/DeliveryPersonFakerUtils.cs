@@ -1,5 +1,4 @@
 ﻿using AutomobileRentalManagementAPI.Application.Features.DeliveryPersons.CreateDeliveryPerson;
-using AutomobileRentalManagementAPI.CrossCutting.Extensions;
 using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Enums;
 using Bogus;
@@ -23,11 +22,6 @@ namespace AutomobileRentalManagementAPI.TestTools.Application
         public static DeliveryPerson GenerateValidDomainEntity()
         {
             return CreateValidDomainEntity().Generate();
-        }
-
-        public static List<DeliveryPerson> GenerateValidDomainEntity(int listSize)
-        {
-            return CreateValidDomainEntity().Generate(listSize);
         }
 
         private static Faker<CreateDeliveryPersonCommand> CreateValidCommand()

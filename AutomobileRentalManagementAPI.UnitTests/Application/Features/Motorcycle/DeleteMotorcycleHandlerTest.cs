@@ -53,7 +53,7 @@ namespace AutomobileRentalManagementAPI.UnitTests.Application.Features.Motorcycl
             var command = new DeleteMotorcycleCommand(Guid.NewGuid());
 
             _locationRepoMock.HasAnyWithMotorcycleAsync(command.NavigationId).Returns(false);
-            _motorcycleRepoMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Domain.Entities.Motorcycle?)null);
+            _motorcycleRepoMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Motorcycle?)null);
 
             await Assert.ThrowsAsync<KeyNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
         }

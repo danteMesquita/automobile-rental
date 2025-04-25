@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutomobileRentalManagementAPI.Domain.CustomExceptions;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using FluentValidation;
 using MediatR;
@@ -25,7 +26,7 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateM
 
             var motorcycle = await _repository.GetByIdAsync(command.NavigationId, cancellationToken);
             if (motorcycle is null)
-                throw new KeyNotFoundException("Motorcycle not found");
+                throw new DomainException("Motorcycle not found");
 
             motorcycle.LicensePlate = command.LicensePlate;
 

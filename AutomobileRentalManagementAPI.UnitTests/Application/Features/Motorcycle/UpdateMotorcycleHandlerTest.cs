@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutomobileRentalManagementAPI.Application.Features.Motorcycles.UpdateMotorcycle;
+using AutomobileRentalManagementAPI.Domain.CustomExceptions;
 using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using AutomobileRentalManagementAPI.TestTools.Application;
@@ -56,15 +57,15 @@ namespace AutomobileRentalManagementAPI.UnitTests.Application.Features.Motorcycl
             await Assert.ThrowsAsync<ValidationException>(() => _handler.Handle(command, CancellationToken.None));
         }
 
-        [Fact(DisplayName = "Should throw KeyNotFoundException when motorcycle is not found.")]
-        public async Task Given_NonexistentMotorcycle_When_Handle_Then_ThrowsKeyNotFoundException()
+        [Fact(DisplayName = "Should throw DomainException when motorcycle is not found.")]
+        public async Task Given_NonexistentMotorcycle_When_Handle_Then_ThrowsDomainException()
         {
             // Arrange
             var command = MotorcycleFakerUtils.GenerateValidUpdateCommand();
             _repositoryMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Motorcycle?)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+            await Assert.ThrowsAsync<DomainException>(() => _handler.Handle(command, CancellationToken.None));
         }
     }
 }

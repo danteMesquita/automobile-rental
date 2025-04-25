@@ -6,7 +6,6 @@ public class LocationProfile : Profile
 {
     public LocationProfile()
     {
-        // Mapeamento original (Response -> Result)
         CreateMap<GetLocationResponse, GetLocationResult>()
             .ForMember(dest => dest.NavigationId, opt => opt.MapFrom(src => Guid.Parse(src.identificador)))
             .ForMember(dest => dest.IdDeliveryPerson, opt => opt.MapFrom(src => Guid.Parse(src.entregador_id)))
@@ -19,7 +18,6 @@ public class LocationProfile : Profile
             .ForMember(dest => dest.DevolutionDate, opt => opt.MapFrom(src => src.data_devolucao))
             .ForMember(dest => dest.TotalValue, opt => opt.MapFrom(src => src.valor_total));
 
-        // Mapeamento inverso (Result -> Response)
         CreateMap<GetLocationResult, GetLocationResponse>()
             .ForMember(dest => dest.identificador, opt => opt.MapFrom(src => src.NavigationId.ToString()))
             .ForMember(dest => dest.entregador_id, opt => opt.MapFrom(src => src.IdDeliveryPerson.ToString()))

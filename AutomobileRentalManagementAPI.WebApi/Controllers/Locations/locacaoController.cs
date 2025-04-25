@@ -51,7 +51,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations
             if(response == null) return NotFound();
 
             var mappedResponse = _mapper.Map<GetLocationResponse>(response);
-            return Ok(mappedResponse);
+            return OkRaw(mappedResponse);
         }
 
         [HttpPut("{id}/devolucao")]
@@ -66,11 +66,12 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Locations
             var command = _mapper.Map<UpdateLocationCommand>(request);
             command.NavigationId = Guid.Parse(id);
             var response = await _mediator.Send(command, cancellationToken);
-            var totalValueString = Convert.ToDecimal(response.TotalValue).ToString("N2");
 
-            return Ok(new ApiResponse()
+            var totalValueString = Convert.ToDecimal(response.TotalValue).ToString("N2");
+            return Ok(new
             {
-                mensagem = "Data de devolução informada com sucesso. Valor total: R$" + totalValueString
+                mensagem = "Data de devolução informada com sucesso",
+                valor = "Valor total: R$" + totalValueString
             });
         }
     }

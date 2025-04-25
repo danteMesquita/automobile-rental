@@ -50,8 +50,12 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
         public async Task<IActionResult> GetAll([FromQuery] GetAllMotorcyclesRequest request, CancellationToken cancellationToken)
         {
             var validationResult = await new GetAllMotorcyclesRequestValidator().ValidateAsync(request, cancellationToken);
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+            if (!validationResult.IsValid)return BadRequest(new ApiResponse()
+            {
+                success = false,
+                mensagem = "Dados inválidos",
+                errors = validationResult.Errors
+            });
 
             var command = _mapper.Map<GetAllMotorcyclesCommand>(request);
             var result = await _mediator.Send(command, cancellationToken);
@@ -63,12 +67,12 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
         [HttpPut("{id}/placa")]
         [ProducesResponseType(typeof(UpdateMotorcycleResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateMotorcyclePlateRequest placa, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put([FromRoute] string id, [FromBody] UpdateMotorcyclePlateRequest placa, CancellationToken cancellationToken)
         {
             var request = new UpdateMotorcycleRequest()
             {
                 LicensePlate = placa.placa,
-                NavigationId = id,
+                NavigationId = Guid.Parse(id),
             };
 
             var validationResult = await new UpdateMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
@@ -90,11 +94,11 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
         [ProducesResponseType(typeof(GetMotorcycleResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get([FromRoute] string id, CancellationToken cancellationToken)
         {
             var request = new GetMotorcycleRequest()
             {
-                NavigationId = id
+                NavigationId = Guid.Parse(id),
             };
 
             var validationResult = await new GetMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);
@@ -113,11 +117,11 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.Motorcycles
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] string id, CancellationToken cancellationToken)
         {
             var request = new DeleteMotorcycleRequest()
             {
-                NavigationId = id
+                NavigationId = Guid.Parse(id)
             };
 
             var validationResult = await new DeleteMotorcycleRequestValidator().ValidateAsync(request, cancellationToken);

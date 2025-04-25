@@ -1,4 +1,5 @@
 ﻿using AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteMotorcycle;
+using AutomobileRentalManagementAPI.Domain.CustomExceptions;
 using AutomobileRentalManagementAPI.Domain.Entities;
 using AutomobileRentalManagementAPI.Domain.Repositories;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
@@ -43,7 +44,7 @@ namespace AutomobileRentalManagementAPI.UnitTests.Application.Features.Motorcycl
 
             _locationRepoMock.HasAnyWithMotorcycleAsync(command.NavigationId).Returns(true);
 
-            var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => _handler.Handle(command, CancellationToken.None));
+            var ex = await Assert.ThrowsAsync<DomainException>(() => _handler.Handle(command, CancellationToken.None));
             Assert.Equal("It is not possible to remove the motorcycle. It is linked to one or more rentals.", ex.Message);
         }
 
@@ -55,7 +56,7 @@ namespace AutomobileRentalManagementAPI.UnitTests.Application.Features.Motorcycl
             _locationRepoMock.HasAnyWithMotorcycleAsync(command.NavigationId).Returns(false);
             _motorcycleRepoMock.GetByIdAsync(command.NavigationId, Arg.Any<CancellationToken>()).Returns((Motorcycle?)null);
 
-            await Assert.ThrowsAsync<KeyNotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+            await Assert.ThrowsAsync<DomainException>(() => _handler.Handle(command, CancellationToken.None));
         }
 
         [Fact(DisplayName = "Should throw ValidationException when command is invalid.")]

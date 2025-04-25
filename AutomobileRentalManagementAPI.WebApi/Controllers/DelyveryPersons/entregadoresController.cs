@@ -42,7 +42,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons
         }
 
         [HttpPost("{id}/cnh")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateLicensePlatePhoto([FromRoute] string id, [FromBody] UpdateLicensePlatePhotoRequest request, CancellationToken cancellationToken)
         {
@@ -55,11 +55,7 @@ namespace AutomobileRentalManagementAPI.WebApi.Controllers.DelyveryPersons
             var response = await _mediator.Send(command, cancellationToken);
             var mappedResponse = _mapper.Map<UpdateLicensePlatePhotoResponse>(response);
 
-            return Created($"/get/{mappedResponse.NavigationId}", new ApiResponse()
-            {
-                success = true,
-                mensagem = "Placa modificada com sucesso"
-            });
+            return Created($"/get/{mappedResponse.NavigationId}", null);
         }
     }
 }

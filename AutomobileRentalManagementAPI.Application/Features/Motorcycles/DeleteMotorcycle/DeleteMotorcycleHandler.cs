@@ -1,4 +1,5 @@
-﻿using AutomobileRentalManagementAPI.Domain.Repositories;
+﻿using AutomobileRentalManagementAPI.Domain.CustomExceptions;
+using AutomobileRentalManagementAPI.Domain.Repositories;
 using AutomobileRentalManagementAPI.Domain.Repositories.Motorcycles;
 using FluentValidation;
 using MediatR;
@@ -27,11 +28,11 @@ namespace AutomobileRentalManagementAPI.Application.Features.Motorcycles.DeleteM
 
             var hasLocation = await _locationRepository.HasAnyWithMotorcycleAsync(command.NavigationId, cancellationToken);
             if (hasLocation)
-                throw new InvalidOperationException("It is not possible to remove the motorcycle. It is linked to one or more rentals.");
+                throw new DomainException("It is not possible to remove the motorcycle. It is linked to one or more rentals.");
 
             var motorcycle = await _motorcycleRepository.GetByIdAsync(command.NavigationId, cancellationToken);
             if (motorcycle is null)
-                throw new KeyNotFoundException("Motorcycle not found");
+                throw new DomainException("Motorcycle not found");
 
             await _motorcycleRepository.DeleteAsync(motorcycle, cancellationToken);
 
